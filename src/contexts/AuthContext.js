@@ -1,20 +1,12 @@
-import { signInWithEmailAndPassword, getAuth, signOut } from "firebase/auth";
-import { initializeApp } from "firebase/app"
+import {signInWithEmailAndPassword, getAuth, signOut, onAuthStateChanged} from "firebase/auth";
 
 
 import React, {createContext, useContext, useEffect, useState} from "react";
+import {firebaseApp, getFirebaseAuth} from "@/lib/firebase";
+import {useAuthState, useSignInWithEmailAndPassword, useSignOut} from "react-firebase-hooks/auth";
 
-export const app = initializeApp({
-    // get from .env
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket:process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
-})
 
-const auth = getAuth(app)
+const auth = getAuth(firebaseApp)
 
 
 const AuthContext = createContext({})
@@ -24,33 +16,26 @@ export function useAuth(){
 }
 
 export function AuthProvider({children}){
-    const [currentUser, setCurrentUser] = useState(null)
-
-    function login(email, password){
-        // return signInWithEmailAndPassword(auth, email,password)
-        alert(`firebase login with ${email} and ${password}`)
-    }
-
-    function logout() {
-        // signOut(auth)
-        alert("firebase logout")
-    }
+    const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            setCurrentUser(user)
+        const unsub = onAuthStateChanged(getFirebaseAuth(),(user)=>{
+            if (user){
+                setUser(user)
+                console.log('user signed in')
+            } else {
+                setUser(null)
+                console.log('no user found')
+            }
+            setLoading(false)
         })
-    }, [])
+        return () => unsub();
+    }, []);
 
-
-    const value = {
-        currentUser,
-        login,
-        logout
-    }
     return (
-        <AuthContext.Provider value={value}>
-            {children}
+        <AuthContext.Provider value={{user}}>
+            {loading? <>Loading...</> : children}
         </AuthContext.Provider>
     )
 }

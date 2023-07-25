@@ -9,11 +9,13 @@ import Link from "@mui/material/Link";
 import AuthContext from "@/contexts/AuthContext";
 import Copyright from "@/components/Copyright";
 import {useRouter} from "next/router";
+import {useAuthState, useSignInWithEmailAndPassword} from "react-firebase-hooks/auth";
+import {getFirebaseAuth} from "@/lib/firebase";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const authContext = useContext(AuthContext);
+    const [loginHandler, loginLoading, loginError ] = useSignInWithEmailAndPassword(getFirebaseAuth())
     const router = useRouter();
 
     const handleOnTextboxChange = (e) => {
@@ -25,9 +27,18 @@ export default function Login() {
         }
     }
 
-    const handleOnSignupClicked = () => {
-        authContext.login(email, password)
-        router.push("/home")
+    const handleOnSignupClicked = async () => {
+        await loginHandler(email, password)
+        if (loginError) {
+            console.log('error loggin in ')
+            return
+        }
+        if (loginLoading){
+            console.log('loading')
+            return
+        }
+        router.push('/home')
+
     }
 
     return (

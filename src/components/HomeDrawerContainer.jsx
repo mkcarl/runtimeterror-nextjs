@@ -15,6 +15,8 @@ import {
 import Typography from "@mui/material/Typography";
 import {LogoutOutlined} from "@mui/icons-material";
 import Box from "@mui/material/Box";
+import {useSignOut} from "react-firebase-hooks/auth";
+import {getFirebaseAuth} from "@/lib/firebase";
 
 const drawerWidth = '12vw';
 
@@ -27,12 +29,12 @@ export default function HomeDrawerContainer(props) {
     // onClick : () => {}
     // content : <Component />
     //}
-    const {logout} = useContext(AuthContext);
+    const [logoutHandler, logoutLoading, logoutError] = useSignOut(getFirebaseAuth())
     const router = useRouter()
     const [content, setContent] = useState()
 
     const handleOnLogout = () => {
-        logout()
+        logoutHandler()
         router.push("/login")
     }
 
@@ -44,7 +46,7 @@ export default function HomeDrawerContainer(props) {
             >
                 <Toolbar sx={{display:'flex', justifyContent:'space-between'}}>
                     <Typography variant="h6" noWrap component="div">
-                        Permanent drawer
+                        RT Inventory Managment
                     </Typography>
                     <IconButton color="inherit" onClick={handleOnLogout}>
                         <Badge color="secondary">
