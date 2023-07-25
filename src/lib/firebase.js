@@ -16,3 +16,7 @@ export const getFirebaseAuth = () => {
     return auth
 }
 
+export const getFirestore = () => {
+    return getFirestore(firebaseApp)
+}
+

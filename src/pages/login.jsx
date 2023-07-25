@@ -69,13 +69,6 @@ export default function Login() {
                            onKeyUp={handleOnTextboxChange}/>
                 <Button variant={'contained'} color={'primary'} onClick={handleOnSignupClicked}>Sign in</Button>
 
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    align="center"
-                >
-                    Copyright © <Link color="inherit" href="">Runtime Terror</Link> 2022.
-                </Typography>
                 <Copyright/>
             </Box>
         </>
