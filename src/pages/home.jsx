@@ -10,6 +10,7 @@ import {collection, getFirestore, query, where} from "firebase/firestore"
 import {firebaseApp, getFirebaseAuth} from "@/lib/firebase";
 import {useAuthState} from "react-firebase-hooks/auth";
 import InventoryView from "@/components/InventoryView";
+import OrderView from "@/components/OrderView";
 
 const dataAnalyst = [
     {
@@ -40,6 +41,7 @@ const inventoryManager = [
     {
         name: "Orders",
         icon: <PostAdd/>,
+        content: <OrderView/>
     },
     {
         name: "Report",
