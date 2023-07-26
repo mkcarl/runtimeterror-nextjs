@@ -11,6 +11,7 @@ import {firebaseApp, getFirebaseAuth} from "@/lib/firebase";
 import {useAuthState} from "react-firebase-hooks/auth";
 import InventoryView from "@/components/InventoryView";
 import OrderView from "@/components/OrderView";
+import RequestView from "@/components/RequestView";
 
 const dataAnalyst = [
     {
@@ -21,7 +22,7 @@ const dataAnalyst = [
     {
         name: "Requests",
         icon: <RequestQuote/>,
-        content: <Lipsum/>
+        content: <RequestView/>
 
     },
     {
