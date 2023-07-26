@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import AuthContext from "@/contexts/AuthContext";
 import {useRouter} from "next/router";
 import {
@@ -32,6 +32,10 @@ export default function HomeDrawerContainer(props) {
     const [logoutHandler, logoutLoading, logoutError] = useSignOut(getFirebaseAuth())
     const router = useRouter()
     const [content, setContent] = useState()
+
+    useEffect(() => {
+        setContent(props.pages[0]?.content)
+    }, [props.pages]);
 
     const handleOnLogout = () => {
         logoutHandler()

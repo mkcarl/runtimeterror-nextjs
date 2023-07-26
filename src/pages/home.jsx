@@ -9,6 +9,7 @@ import {useCollectionDataOnce} from 'react-firebase-hooks/firestore'
 import {collection, getFirestore, query, where} from "firebase/firestore"
 import {firebaseApp, getFirebaseAuth} from "@/lib/firebase";
 import {useAuthState} from "react-firebase-hooks/auth";
+import InventoryView from "@/components/InventoryView";
 
 const dataAnalyst = [
     {
@@ -34,7 +35,7 @@ const inventoryManager = [
     {
         name: "Inventory",
         icon: <Inventory/>,
-        content: <Lipsum/>
+        content: <InventoryView/>
     },
     {
         name: "Orders",
@@ -73,13 +74,17 @@ export default function Home() {
     useEffect(() => {
         console.log('snapshot', value)
         setRole(value?.[0]?.role)
+
+    }, [value]);
+
+    useEffect(() => {
         const role_view_mapping = {
             'data-analyst': dataAnalyst,
             'inventory-manager': inventoryManager,
             'owner': owner
         }
         setContent(<HomeDrawerContainer pages={role_view_mapping[role] ?? []}/>)
-    }, [value]);
+    }, [role]);
 
     return (
         <>
