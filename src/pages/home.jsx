@@ -12,12 +12,13 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import InventoryView from "@/components/InventoryView";
 import OrderView from "@/components/OrderView";
 import RequestView from "@/components/RequestView";
+import DashboardView from "@/components/DashboardView";
 
 const dataAnalyst = [
     {
         name: "Dashboard",
         icon: <Dashboard/>,
-        content: <Lipsum/>
+        content: <DashboardView/>
     },
     {
         name: "Requests",
