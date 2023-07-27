@@ -13,7 +13,7 @@ export default function InfoPanel(props) {
                         Object.entries(props.data).map(([key, value]) => {
                             return (
                                 <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2}}>
-                                    <Typography variant={'h5'} fontSize={'4rem'}>{value}</Typography>
+                                    <Typography variant={'h5'} fontSize={'4rem'}>{value ?? 'N/A'}</Typography>
                                     <Typography variant={'caption'} fontSize={'1.5rem'}>{key}</Typography>
                                 </Box>)
                         })

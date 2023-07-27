@@ -26,12 +26,6 @@ const dataAnalyst = [
         content: <RequestView/>
 
     },
-    {
-        name: "Foobar",
-        icon: <Folder/>,
-        content: <Lipsum/>,
-
-    }
 ]
 
 const inventoryManager = [

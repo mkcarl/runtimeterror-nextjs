@@ -9,62 +9,73 @@ import DashboardPanel from "@/components/DashboardPanel";
 import Typography from "@mui/material/Typography";
 import {Divider} from "@mui/material";
 import InfoPanel from "@/components/InfoPanel";
-import {pieArcLabelClasses, PieChart} from "@mui/x-charts";
+import {useEffect, useState} from "react";
+
 
 export default function DashboardView() {
-    const requestData = {
-        approve: 10,
-        pending: 29,
-        rejected: 3
-    }
-    const orderData = {
-        approve: 5,
-        pending: 20,
-    }
-    const inventoryData = {
-        // number of items going in and out of inventory
-        out: 2000,
-        in: 'N/A'
-    }
+    const [data, setData] = useState()
     const pieChartData = [
         {value: 100, label: 'tomato' },
         {value: 150, label: 'carrot' },
         {value: 200, label: 'cabbage' },
     ]
-    const totalSalesData=20000
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await (await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/dashboard`)).json()
+            setData(res)
+        }
+
+        fetchData().catch(console.error)
+    }, []);
+
+    if (!data) return (<div>loading</div>)
 
     return (
         <Box sx={{display: 'flex', flexWrap:'wrap'}}>
             <Box id={'first-row'} sx={{display:'flex', width:'100%'}}>
-                <InfoPanel id={'request-panel'} title={'Requests'} data={requestData}/>
-                <InfoPanel id={'order-panel'} title={'Orders'} data={orderData}/>
-                <InfoPanel id={'inventory-panel'} title={'Inventory'} data={inventoryData}/>
+                <InfoPanel id={'request-panel'} title={'Requests'} data={data.requests}/>
+                <InfoPanel id={'order-panel'} title={'Orders'} data={data.orders}/>
+                <InfoPanel id={'inventory-panel'} title={'Inventory'} data={data.inventory}/>
 
             </Box>
             <Box id={'second-row'} sx={{display:'flex', width:'100%'}}>
-                <DashboardPanel title={'Out inventory'}>
-                    <PieChart series={
-                        [
-                            {
-                                data: pieChartData,
-                                arcLabel: (item) => `${item.label} (${item.value})`,
-                                arcLabelMinAngle: 45,
+                {/*<DashboardPanel title={'Out inventory'}>*/}
+                {/*    <PieChart series={*/}
+                {/*        [*/}
+                {/*            {*/}
+                {/*                data: pieChartData,*/}
+                {/*                arcLabel: (item) => `${item.label} (${item.value})`,*/}
+                {/*                arcLabelMinAngle: 45,*/}
 
 
-                            },
+                {/*            },*/}
 
-                        ]
-                    }
-                              width={500}
-                              height={300}
-                              sx={{
-                                  [`& .${pieArcLabelClasses.root}`]: {
-                                      fill: 'white',
-                                      fontWeight: 'bold',
-                                  },
-                              }}
-                    />
+                {/*        ]*/}
+                {/*    }*/}
+                {/*              width={500}*/}
+                {/*              height={300}*/}
+                {/*              // sx={{*/}
+                {/*              //     [`& .${pieArcLabelClasses.root}`]: {*/}
+                {/*              //         fill: 'white',*/}
+                {/*              //         fontWeight: 'bold',*/}
+                {/*              //     },*/}
+                {/*              // }}*/}
+                {/*    />*/}
 
+                {/*</DashboardPanel>*/}
+                <DashboardPanel title={'Inventory Out'}>
+                    <Box sx={{
+                        maxHeight:'300px',
+                        display:'flex',
+                        width:'100%',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        {Object.entries(data.inventoryItemOut).map(([k,v] )=> {
+                            return <Typography paragraph fontSize={'1.2rem'}>{k}: {v}</Typography>
+                        })}
+                    </Box>
                 </DashboardPanel>
                 <DashboardPanel title={"Total Sales"}>
                     <Box sx={{
@@ -75,7 +86,7 @@ export default function DashboardView() {
                         justifyContent:'center',
                     }}>
                         <Typography variant={'h5'}fontSize='5rem'>
-                            RM{totalSalesData}
+                            RM{data.revenue}
                         </Typography>
 
                     </Box>

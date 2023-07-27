@@ -1,4 +1,4 @@
-import {Paper} from "@mui/material";
+import {Divider, Paper} from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
@@ -21,7 +21,8 @@ export default function DashboardPanel(props) {
                 py: 2,
             }}>
                 <Typography variant={'h2'} fontSize={'1.2rem'} fontWeight={'bold'}>{props.title}</Typography>
-                <Box sx={{flexGrow: 1, width: "100%"}}>
+                <Divider sx={{width: '100%'}}/>
+                <Box sx={{flexGrow: 1, width: "100%", p:1}}>
                     {props.children}
                 </Box>
             </Paper>
