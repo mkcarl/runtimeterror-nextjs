@@ -11,6 +11,7 @@ import Copyright from "@/components/Copyright";
 import {useRouter} from "next/router";
 import {useAuthState, useSignInWithEmailAndPassword} from "react-firebase-hooks/auth";
 import {getFirebaseAuth} from "@/lib/firebase";
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -70,6 +71,30 @@ export default function Login() {
                 <Button variant={'contained'} color={'primary'} onClick={handleOnSignupClicked}>Sign in</Button>
 
                 <Copyright/>
+
+                <Box>
+                    <Typography variant={'h6'}>Example logins</Typography>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Password</TableCell>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell>ic@gmail.com</TableCell>
+                                    <TableCell>test123</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>test@gmail.com</TableCell>
+                                    <TableCell>test123</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+
+                    </TableContainer>
+
+                </Box>
             </Box>
         </>
     )
